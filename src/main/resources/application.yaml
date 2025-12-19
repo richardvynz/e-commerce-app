@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: eCommerce-App
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:test
+  jpa:
+    show-sql: true
+    properties:
+          hibernate:
+            ddl-auto: update
+            format_sql: true
