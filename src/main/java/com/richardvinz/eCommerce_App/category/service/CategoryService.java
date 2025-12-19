@@ -1,14 +1,16 @@
 package com.richardvinz.eCommerce_App.category.service;
 
 import com.richardvinz.eCommerce_App.category.model.Category;
+import com.richardvinz.eCommerce_App.category.payload.request.CategoryDTO;
+import com.richardvinz.eCommerce_App.category.payload.response.CategoryResponse;
 
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> getAllCategories();
-    String createCategories(Category category);
+    CategoryResponse getAllCategories();
+    CategoryDTO createCategories(CategoryDTO category);
 
     String deleteCategoryById(Long categoryId);
 
-    Category updateCategory(Long categoryId, Category category);
+    CategoryDTO updateCategory(Long categoryId, CategoryDTO category);
 }
