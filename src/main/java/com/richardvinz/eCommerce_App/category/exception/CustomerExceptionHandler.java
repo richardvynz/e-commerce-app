@@ -1,5 +1,6 @@
 package com.richardvinz.eCommerce_App.category.exception;
 
+import com.richardvinz.eCommerce_App.category.config.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -22,18 +23,22 @@ public class CustomerExceptionHandler {
             String message = err.getDefaultMessage();
         response.put(fieldName,message);
         });
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String>resourceNotFoundExceptionHandler(ResourceNotFoundException e){
-        String message = e.getMessage();
-        return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse>resourceNotFoundExceptionHandler(ResourceNotFoundException e){
+        return buildResponse(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(APIException.class)
-    public ResponseEntity<String> ApiExceptionHandler(APIException e){
-        String message = e.getMessage();
-        return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse> ApiExceptionHandler(APIException e){
+        return buildResponse(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    private ResponseEntity<ApiResponse> buildResponse(String message, HttpStatus status){
+        ApiResponse response = new ApiResponse(message,false);
+    return new ResponseEntity<>(response, status);
     }
 }

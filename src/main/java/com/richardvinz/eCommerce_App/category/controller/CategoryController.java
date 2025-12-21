@@ -1,5 +1,6 @@
 package com.richardvinz.eCommerce_App.category.controller;
 
+import com.richardvinz.eCommerce_App.category.config.AppConstants;
 import com.richardvinz.eCommerce_App.category.model.Category;
 import com.richardvinz.eCommerce_App.category.payload.request.CategoryDTO;
 import com.richardvinz.eCommerce_App.category.payload.response.CategoryResponse;
@@ -13,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static com.richardvinz.eCommerce_App.category.config.AppConstants.*;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -22,8 +25,11 @@ public class CategoryController {
 
 
     @GetMapping("/public/categories")
-    public ResponseEntity<CategoryResponse>getCategories(){
-        return new ResponseEntity<>(categoryService.getAllCategories(),HttpStatus.OK);
+    public ResponseEntity<CategoryResponse>getCategories(@RequestParam(name = "pageNumber",required = false,defaultValue = PAGE_NUMBER) Integer pageNumber,
+                                                         @RequestParam(name = "pageSize",required = false,defaultValue = PAGE_SIZE) Integer pageSize,
+                                                         @RequestParam(name = "sortBy",defaultValue = SORT_BY,required = false) String sortBy,
+                                                         @RequestParam(name = "sortOrder",defaultValue = SORT_ORDER, required = false) String sortOrder){
+        return new ResponseEntity<>(categoryService.getAllCategories(pageNumber,pageSize,sortBy,sortOrder),HttpStatus.OK);
     }
 
     @PostMapping("/public/categories")
