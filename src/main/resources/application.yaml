@@ -12,3 +12,5 @@ spring:
           hibernate:
             ddl-auto: update
             format_sql: true
+product:
+  image: "images/"
