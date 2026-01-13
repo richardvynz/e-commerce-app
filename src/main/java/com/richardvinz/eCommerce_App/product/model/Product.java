@@ -1,14 +1,16 @@
 package com.richardvinz.eCommerce_App.product.model;
 
 import com.richardvinz.eCommerce_App.category.model.Category;
+import com.richardvinz.eCommerce_App.user.models.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-@Data
+import lombok.*;
+
+@Setter
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "products")
 public class Product {
 
     @Id
@@ -25,4 +27,9 @@ public class Product {
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @ToString.Exclude
+    @JoinColumn(name = "seller_id")
+    private User user;
 }

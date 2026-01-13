@@ -1,4 +1,7 @@
 spring:
+  app:
+    jwtSecret: cXdlcnR5dWlvcGxramhnZHNhYXNkZmdoYm52Y3h6eGNhc2RmZ2hoanJyZXdlcnR5dWp1bmN4Y3ZiamhnZmVkZnZnYmhkZmQ=
+    jwtExpirationMs: 5000000
   application:
     name: eCommerce-App
   h2:
@@ -14,3 +17,13 @@ spring:
             format_sql: true
 product:
   image: "images/"
+
+#logging:
+#  level:
+#    com:
+#      richardvinz.eCommerce_App: DEBUG
+#    org:
+#      springframework: DEBUG
+#      security: DEBUG
+#      hibernate:
+#        sql: DEBUG
