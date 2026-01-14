@@ -11,6 +11,8 @@ import com.richardvinz.eCommerce_App.user.models.User;
 import com.richardvinz.eCommerce_App.user.repository.RoleRepository;
 import com.richardvinz.eCommerce_App.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -66,14 +68,16 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
+        ResponseCookie jwtCookie = jwtUtils.generateJWTCookie(userDetails);
 
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
-        UserInfoResponse  response = new UserInfoResponse(userDetails.getId(), jwtToken, userDetails.getUsername(), roles);
+        UserInfoResponse  response = new UserInfoResponse(userDetails.getId(), jwtCookie.toString(),userDetails.getUsername(), roles);
 
-        return new ResponseEntity<>(response,OK);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE,jwtCookie.toString())
+                .body(response);
     }
 
     @PostMapping("/register")
