@@ -27,7 +27,6 @@ import java.util.*;
 
 import static com.richardvinz.eCommerce_App.user.enums.AppRole.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api")
@@ -129,5 +128,18 @@ public class AuthController {
             return authentication.getName();
         }
         return "";
+    }
+
+        @GetMapping("/user")
+    public ResponseEntity<?> getUserDetails(Authentication authentication){
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+            List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+
+        UserInfoResponse response = new UserInfoResponse(userDetails.getId(),
+                userDetails.getUsername(),roles);
+        return ResponseEntity.ok().body(response);
     }
 }
