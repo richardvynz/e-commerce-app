@@ -127,7 +127,7 @@ public class AuthController {
         if(authentication != null){
             return authentication.getName();
         }
-        return "";
+        return "Signed out";
     }
 
         @GetMapping("/user")
@@ -141,5 +141,12 @@ public class AuthController {
         UserInfoResponse response = new UserInfoResponse(userDetails.getId(),
                 userDetails.getUsername(),roles);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity<?>signOutUser(){
+        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,cookie.toString())
+                .body(new MessageResponse("You are now Signed out!"));
     }
 }
